@@ -5,4 +5,4 @@ This is an incredibly efficient heap implementation written in C. The functions'
 
 When using either `heappoll` or `heapoffer`, the user must take care of the variable indicating the number o elements by himself, as shown in `example.c`.
 
-Also, when using `heappoll`, beware not to exceed the amount of memory allocated for the array.
+Also, when using `heapoffer`, beware not to exceed the amount of memory allocated for the array.
