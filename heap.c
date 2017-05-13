@@ -47,7 +47,7 @@ void heappoll(void *base, const size_t num, const size_t size, int (*compar)(con
 }
 
 void heapoffer(void *x, void *base, const size_t num, const size_t size, int (*compar)(const void*,const void*)) {
-	memcpy((char*)base+size*num,x,size);
+	memcpy((char*)base+size*(num+1),x,size);
 	heapup(base,num,size,compar);
 }
 
