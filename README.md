@@ -1,7 +1,7 @@
 heap
 ====
 
-This is an incredibly efficient *heap* implementation written in C. The functions' headers were designed to look like the standard headers for array manipulation functions (check out `qsort` from `stdlib.h`).
+This is an incredibly efficient *minimum heap* implementation written in C. The functions' headers were designed to look like the standard headers for array manipulation functions (check out `qsort` from `stdlib.h`).
 
 When using either `heappoll` or `heapoffer`, the user must take care of the variable indicating the number o elements by himself, as shown in `example.c`.
 
