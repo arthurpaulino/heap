@@ -1,21 +1,15 @@
 #include <string.h>
 #include "heap.h"
-
-#define PAI(i) ((i-1)>>1)
-#define FILHOESQ(i) ((i<<1)+1)
-#define FILHODIR(i) ((i<<1)+2)
+#include <stdio.h>
 
 static void heapup(void *base, int i, const size_t size, int (*compar)(const void*,const void*)) {
 	char valor[size];
 	memcpy(valor,(char*)base+i*size,size);
-	int pai=PAI(i), d = (i-pai)*size;
-	void *pi = (char*)base+i*size;
+	int pai=(i-1)>>1;
 	while (compar((char*)base+pai*size,valor) > 0 && i!=0) {
-		memcpy(pi,(char*)pi-d,size);
-		pi = (char*)pi-d;
-		d>>=1;
+		memcpy((char*)base+i*size,(char*)base+pai*size,size);
 		i = pai;
-		pai = PAI(i);
+		pai = ((i-1)>>1);
 	}
 	memcpy((char*)base+i*size,valor,size);
 }
@@ -23,12 +17,12 @@ static void heapup(void *base, int i, const size_t size, int (*compar)(const voi
 static void heapdown(void *base, const size_t num, int i, const size_t size, int (*compar)(const void*,const void*)) {
 	char valor[size];
 	memcpy(valor,(char*)base+i*size,size);
-	int filhoesq = FILHOESQ(i), filhodir = FILHODIR(i), menorfilho = ((filhodir >= num) || compar((char*)base+size*filhoesq,(char*)base+size*filhodir)<0) ? filhoesq : filhodir;
+	int filhoesq = ((i<<1)+1), filhodir = ((i<<1)+2), menorfilho = ((filhodir >= num) || compar((char*)base+size*filhoesq,(char*)base+size*filhodir)<0) ? filhoesq : filhodir;
 	while (menorfilho < num && compar((char*)base+menorfilho*size,valor) < 0) {
 		memcpy((char*)base+i*size,(char*)base+size*menorfilho,size);
 		i = menorfilho;
-		filhoesq = FILHOESQ(i);
-		filhodir = FILHODIR(i);
+		filhoesq = (i<<1)+1;
+		filhodir = (i<<1)+2;
 		menorfilho = ((filhodir >= num) || compar((char*)base+size*filhoesq,(char*)base+size*filhodir)<0) ? filhoesq : filhodir;
 	}
 	memcpy((char*)base+i*size,valor,size);
@@ -47,7 +41,7 @@ void heappoll(void *base, const size_t num, const size_t size, int (*compar)(con
 }
 
 void heapoffer(void *x, void *base, const size_t num, const size_t size, int (*compar)(const void*,const void*)) {
-	memcpy((char*)base+size*(num+1),x,size);
+	memcpy((char*)base+size*num,x,size);
 	heapup(base,num,size,compar);
 }
 
